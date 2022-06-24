@@ -3,8 +3,8 @@ provider "aws" {
   profile = "source"
 
   assume_role {
-    role_arn = "<TARGET ARN>"
-    # external_id = "my_external_id"
+    role_arn    = var.target-arn
+    external_id = var.external_id
   }
 
   default_tags {

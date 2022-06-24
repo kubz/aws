@@ -1,3 +1,21 @@
+variable "region" {
+  type    = string
+  default = "eu-central-1"
+}
+variable "availability_zone" {
+  type    = string
+  default = "eu-central-1a"
+}
+variable "target-arn" {
+  default     = "arn:aws:iam::<ACCOUNT_NUMBER>:role/<ROLE NAME>"
+  description = "Target Account ARN"
+  type        = string
+}
+variable "external_id" {
+  default     = ""
+  description = "External ID to use"
+  type        = string
+}
 variable "vpc-cidr" {
   default     = "10.0.0.0/16"
   description = "VPC CIDR BLOCK"
@@ -25,12 +43,4 @@ variable "instance_type" {
 variable "key_name" {
   default = "automation"
   type    = string
-}
-variable "region" {
-  type    = string
-  default = "eu-central-1"
-}
-variable "availability_zone" {
-  type    = string
-  default = "eu-central-1a"
 }
