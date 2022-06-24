@@ -121,32 +121,8 @@ resource "aws_security_group" "ssh-security-group" {
   }
 }
 
-// 
-
-
-# data "aws_ami" "ubuntu" {
-#   most_recent = true
-
-#   filter {
-#     name   = "name"
-#     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-#   }
-
-#   filter {
-#     name   = "virtualization-type"
-#     values = ["hvm"]
-#   }
-
-#   owners = ["099720109477"]
-# }
-
-# resource "aws_key_pair" "ssh-key" {
-#   key_name   = "ssh-key-mbp"
-#   public_key = "<HERE SSH KEY>"
-# }
 
 resource "aws_instance" "example" {
-  # ami           = data.aws_ami.ubuntu.id
   ami = "ami-065deacbcaac64cf2"
 
   instance_type = var.instance_type
@@ -158,8 +134,8 @@ resource "aws_instance" "example" {
 
   associate_public_ip_address = true
 
-  #user_data                   = "${data.template_file.provision.rendered}"
-  #iam_instance_profile = "${aws_iam_instance_profile.some_profile.id}"
+  #user_data            = data.template_file.provision.rendered
+  #iam_instance_profile = aws_iam_instance_profile.some_profile.id
   lifecycle {
     create_before_destroy = true
     ignore_changes = [
@@ -169,7 +145,6 @@ resource "aws_instance" "example" {
     ]
   }
 
-  # Copies the ssh key file to home dir
   # Copies the ssh key file to home dir
   provisioner "file" {
     source      = "./${var.key_name}.pem"
@@ -194,11 +169,4 @@ resource "aws_instance" "example" {
   }
 
   depends_on = [aws_internet_gateway.gw]
-  # network_interface {
-  #   network_interface_id = aws_network_interface.foo.id
-  #   device_index         = 0
-  # }
-  # tags = {
-  #   Name = ""
-  # }
 }
